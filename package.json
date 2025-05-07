@@ -1,0 +1,21 @@
+{
+    "name": "email-tracking-system",
+    "version": "1.0.0",
+    "description": "Serverless email tracking system for Vercel",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start"
+    },
+    "dependencies": {
+        "mongoose": "^6.13.8",
+        "next": "^12.2.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "author": "",
+    "license": "MIT"
+}
