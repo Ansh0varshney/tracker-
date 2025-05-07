@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../lib/mongodb';
+import { connectToDatabase } from '../mongodb';
 import EmailEvent from '../models/EmailEvent';
 
 export default async function handler(req, res) {
