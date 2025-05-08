@@ -11,26 +11,39 @@ export default function Dashboard() {
   });
   const [activeTab, setActiveTab] = useState('events');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const loadDashboardData = async () => {
     setLoading(true);
+    setError(null);
     try {
-      const statsResponse = await fetch('/api/stats');
-      const statsData = await statsResponse.json();
-      setStats(statsData);
+      const [statsResponse, eventsResponse] = await Promise.all([
+        fetch('/api/stats'),
+        fetch('/api/events')
+      ]);
 
-      const eventsResponse = await fetch('/api/events');
-      const eventsData = await eventsResponse.json();
+      if (!statsResponse.ok || !eventsResponse.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const [statsData, eventsData] = await Promise.all([
+        statsResponse.json(),
+        eventsResponse.json()
+      ]);
+
+      setStats(statsData);
       setEvents(eventsData);
     } catch (error) {
       console.error('Error loading dashboard data:', error);
+      setError('Failed to load dashboard data. Please try again.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
     loadDashboardData();
-    const interval = setInterval(loadDashboardData, 300000);
+    const interval = setInterval(loadDashboardData, 300000); // Refresh every 5 minutes
     return () => clearInterval(interval);
   }, []);
 
@@ -125,20 +138,31 @@ export default function Dashboard() {
       <Head>
         <title>Email Tracking Dashboard</title>
         <meta name="description" content="Email tracking system dashboard" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
       </Head>
 
       <div className="header">
         <div className="container">
           <div className="d-flex justify-content-between align-items-center">
             <h1><i className="fas fa-chart-line me-3"></i>Email Tracking Dashboard</h1>
-            <button id="refreshButton" className="btn btn-primary" onClick={loadDashboardData}>
-              <i className="fas fa-sync-alt me-2"></i>Refresh Data
+            <button 
+              className="btn btn-primary" 
+              onClick={loadDashboardData}
+              disabled={loading}
+            >
+              <i className={`fas fa-sync-alt me-2 ${loading ? 'fa-spin' : ''}`}></i>
+              {loading ? 'Loading...' : 'Refresh Data'}
             </button>
           </div>
         </div>
       </div>
+
+      {error && (
+        <div className="container mt-3">
+          <div className="alert alert-danger" role="alert">
+            {error}
+          </div>
+        </div>
+      )}
 
       <div className="container mb-5">
         <div className="row mb-4" id="statsCards">

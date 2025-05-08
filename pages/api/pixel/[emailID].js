@@ -1,7 +1,7 @@
-// File: api/pixel/[emailId].js - Tracking pixel endpoint
+// File: api/pixel/[emailID].js - Tracking pixel endpoint
 import mongoose from 'mongoose';
 import { connectToDatabase } from '../../../mongodb';
-import EmailEvent from '../../../models/EmailEvent';
+import { User, EmailEvent } from '../../../models/EmailEvent';
 
 export default async function handler(req, res) {
   // Only allow GET requests
@@ -9,24 +9,32 @@ export default async function handler(req, res) {
     return res.status(405).end('Method Not Allowed');
   }
   
-  console.log('Pixel tracking request received:', {
+  console.log('Pixel tracking request received:', {  
     query: req.query,
     headers: req.headers,
     method: req.method
   });
 
-  const { emailId } = req.query;
-  const recipient = req.query.p || 'unknown';
-  const company = req.query.c || 'unknown';
-  
+  const emailId = req.query.emailID;
+  const { p: recipient, c: company } = req.query;
+
   try {
     console.log('Attempting to connect to MongoDB...');
     // Connect to MongoDB
     await connectToDatabase();
     console.log('MongoDB connection successful');
     
+    // Find the user by the emailId from the URL
+    const user = await User.findOne({ email: emailId });
+    if (!user) {
+      console.error('User not found for email:', emailId);
+      return res.status(404).json({ error: 'User not found' });
+    }
+    console.log("Found user:", user);
+
     // Create a new email open event
     const openEvent = new EmailEvent({
+      user: user._id,
       type: 'open',
       emailId,
       recipient,

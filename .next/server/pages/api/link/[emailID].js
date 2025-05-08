@@ -1,121 +1,65 @@
 "use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 (() => {
 var exports = {};
-exports.id = 398;
-exports.ids = [398];
+exports.id = "pages/api/link/[emailID]";
+exports.ids = ["pages/api/link/[emailID]"];
 exports.modules = {
 
-/***/ 81:
+/***/ "dotenv/config":
+/*!********************************!*\
+  !*** external "dotenv/config" ***!
+  \********************************/
 /***/ ((module) => {
 
 module.exports = require("dotenv/config");
 
 /***/ }),
 
-/***/ 663:
+/***/ "mongoose":
+/*!***************************!*\
+  !*** external "mongoose" ***!
+  \***************************/
 /***/ ((module) => {
 
 module.exports = require("mongoose");
 
 /***/ }),
 
-/***/ 645:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "(api)/./models/EmailEvent.js":
+/*!******************************!*\
+  !*** ./models/EmailEvent.js ***!
+  \******************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(663);
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
-
-// Check if the model already exists to prevent OverwriteModelError
-const EmailEvent = (mongoose__WEBPACK_IMPORTED_MODULE_0___default().models.EmailEvent) || mongoose__WEBPACK_IMPORTED_MODULE_0___default().model("EmailEvent", new (mongoose__WEBPACK_IMPORTED_MODULE_0___default().Schema)({
-    type: {
-        type: String,
-        required: true
-    },
-    emailId: {
-        type: String,
-        required: true
-    },
-    recipient: {
-        type: String,
-        required: true
-    },
-    company: {
-        type: String,
-        required: true
-    },
-    linkClicked: {
-        type: String
-    },
-    userAgent: {
-        type: String
-    },
-    ipAddress: {
-        type: String
-    },
-    timestamp: {
-        type: Date,
-        default: Date.now
-    }
-}));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EmailEvent);
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"EmailEvent\": () => (/* binding */ EmailEvent),\n/* harmony export */   \"User\": () => (/* binding */ User)\n/* harmony export */ });\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ \"mongoose\");\n\n// User model\nconst UserSchema = mongoose__WEBPACK_IMPORTED_MODULE_0__.Schema({\n    _id: {\n        type: mongoose__WEBPACK_IMPORTED_MODULE_0__.Schema.Types.ObjectId,\n        auto: true\n    },\n    name: {\n        type: String,\n        required: true\n    },\n    email: {\n        type: String,\n        required: true,\n        unique: true\n    },\n    password: {\n        type: String,\n        required: true\n    },\n    company: {\n        type: String,\n        required: true\n    },\n    createdAt: {\n        type: Date,\n        default: Date.now\n    }\n});\n// Ensure email is unique\nUserSchema.index({\n    email: 1\n}, {\n    unique: true\n});\nconst User = mongoose__WEBPACK_IMPORTED_MODULE_0__.models.User || mongoose__WEBPACK_IMPORTED_MODULE_0__.model(\"User\", UserSchema);\n// Email event model\nconst EmailEventSchema = new mongoose__WEBPACK_IMPORTED_MODULE_0__.Schema({\n    user: {\n        type: mongoose__WEBPACK_IMPORTED_MODULE_0__.Schema.Types.ObjectId,\n        ref: \"User\",\n        required: true\n    },\n    type: {\n        type: String,\n        required: true\n    },\n    emailId: {\n        type: String,\n        required: true\n    },\n    recipient: {\n        type: String,\n        required: true\n    },\n    company: {\n        type: String,\n        required: true\n    },\n    linkClicked: {\n        type: String\n    },\n    userAgent: {\n        type: String\n    },\n    ipAddress: {\n        type: String\n    },\n    timestamp: {\n        type: Date,\n        default: Date.now\n    }\n});\nconst EmailEvent = mongoose__WEBPACK_IMPORTED_MODULE_0__.models.EmailEvent || mongoose__WEBPACK_IMPORTED_MODULE_0__.model(\"EmailEvent\", EmailEventSchema);\n\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9tb2RlbHMvRW1haWxFdmVudC5qcy5qcyIsIm1hcHBpbmdzIjoiOzs7Ozs7QUFBZ0M7QUFFaEMsYUFBYTtBQUNiLE1BQU1DLFVBQVUsR0FBR0QsNENBQWUsQ0FBQztJQUNqQ0csR0FBRyxFQUFFO1FBQUVDLElBQUksRUFBRUosMkRBQThCO1FBQUVPLElBQUksRUFBRSxJQUFJO0tBQUU7SUFDekRDLElBQUksRUFBRTtRQUFFSixJQUFJLEVBQUVLLE1BQU07UUFBRUMsUUFBUSxFQUFFLElBQUk7S0FBRTtJQUN0Q0MsS0FBSyxFQUFFO1FBQUVQLElBQUksRUFBRUssTUFBTTtRQUFFQyxRQUFRLEVBQUUsSUFBSTtRQUFFRSxNQUFNLEVBQUUsSUFBSTtLQUFFO0lBQ3JEQyxRQUFRLEVBQUU7UUFBRVQsSUFBSSxFQUFFSyxNQUFNO1FBQUVDLFFBQVEsRUFBRSxJQUFJO0tBQUU7SUFDMUNJLE9BQU8sRUFBRTtRQUFFVixJQUFJLEVBQUVLLE1BQU07UUFBRUMsUUFBUSxFQUFFLElBQUk7S0FBRTtJQUN6Q0ssU0FBUyxFQUFFO1FBQUVYLElBQUksRUFBRVksSUFBSTtRQUFFQyxPQUFPLEVBQUVELElBQUksQ0FBQ0UsR0FBRztLQUFFO0NBQzdDLENBQUM7QUFFRix5QkFBeUI7QUFDekJqQixVQUFVLENBQUNrQixLQUFLLENBQUM7SUFBRVIsS0FBSyxFQUFFLENBQUM7Q0FBRSxFQUFFO0lBQUVDLE1BQU0sRUFBRSxJQUFJO0NBQUUsQ0FBQyxDQUFDO0FBRWpELE1BQU1RLElBQUksR0FBR3BCLGlEQUFvQixJQUFJQSwyQ0FBYyxDQUFDLE1BQU0sRUFBRUMsVUFBVSxDQUFDO0FBRXZFLG9CQUFvQjtBQUNwQixNQUFNc0IsZ0JBQWdCLEdBQUcsSUFBSXZCLDRDQUFlLENBQUM7SUFDM0N3QixJQUFJLEVBQUU7UUFBRXBCLElBQUksRUFBRUosMkRBQThCO1FBQUV5QixHQUFHLEVBQUUsTUFBTTtRQUFFZixRQUFRLEVBQUUsSUFBSTtLQUFFO0lBQzNFTixJQUFJLEVBQUU7UUFBRUEsSUFBSSxFQUFFSyxNQUFNO1FBQUVDLFFBQVEsRUFBRSxJQUFJO0tBQUU7SUFDdENnQixPQUFPLEVBQUU7UUFBRXRCLElBQUksRUFBRUssTUFBTTtRQUFFQyxRQUFRLEVBQUUsSUFBSTtLQUFFO0lBQ3pDaUIsU0FBUyxFQUFFO1FBQUV2QixJQUFJLEVBQUVLLE1BQU07UUFBRUMsUUFBUSxFQUFFLElBQUk7S0FBRTtJQUMzQ0ksT0FBTyxFQUFFO1FBQUVWLElBQUksRUFBRUssTUFBTTtRQUFFQyxRQUFRLEVBQUUsSUFBSTtLQUFFO0lBQ3pDa0IsV0FBVyxFQUFFO1FBQUV4QixJQUFJLEVBQUVLLE1BQU07S0FBRTtJQUM3Qm9CLFNBQVMsRUFBRTtRQUFFekIsSUFBSSxFQUFFSyxNQUFNO0tBQUU7SUFDM0JxQixTQUFTLEVBQUU7UUFBRTFCLElBQUksRUFBRUssTUFBTTtLQUFFO0lBQzNCc0IsU0FBUyxFQUFFO1FBQUUzQixJQUFJLEVBQUVZLElBQUk7UUFBRUMsT0FBTyxFQUFFRCxJQUFJLENBQUNFLEdBQUc7S0FBRTtDQUM3QyxDQUFDO0FBRUYsTUFBTWMsVUFBVSxHQUFHaEMsdURBQTBCLElBQUlBLDJDQUFjLENBQUMsWUFBWSxFQUFFdUIsZ0JBQWdCLENBQUM7QUFFbkUiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9lbWFpbC10cmFja2luZy1zeXN0ZW0vLi9tb2RlbHMvRW1haWxFdmVudC5qcz9hNTQzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBtb25nb29zZSBmcm9tICdtb25nb29zZSc7XHJcblxyXG4vLyBVc2VyIG1vZGVsXHJcbmNvbnN0IFVzZXJTY2hlbWEgPSBtb25nb29zZS5TY2hlbWEoe1xyXG4gIF9pZDogeyB0eXBlOiBtb25nb29zZS5TY2hlbWEuVHlwZXMuT2JqZWN0SWQsIGF1dG86IHRydWUgfSxcclxuICBuYW1lOiB7IHR5cGU6IFN0cmluZywgcmVxdWlyZWQ6IHRydWUgfSxcclxuICBlbWFpbDogeyB0eXBlOiBTdHJpbmcsIHJlcXVpcmVkOiB0cnVlLCB1bmlxdWU6IHRydWUgfSxcclxuICBwYXNzd29yZDogeyB0eXBlOiBTdHJpbmcsIHJlcXVpcmVkOiB0cnVlIH0sXHJcbiAgY29tcGFueTogeyB0eXBlOiBTdHJpbmcsIHJlcXVpcmVkOiB0cnVlIH0sXHJcbiAgY3JlYXRlZEF0OiB7IHR5cGU6IERhdGUsIGRlZmF1bHQ6IERhdGUubm93IH1cclxufSk7XHJcblxyXG4vLyBFbnN1cmUgZW1haWwgaXMgdW5pcXVlXHJcblVzZXJTY2hlbWEuaW5kZXgoeyBlbWFpbDogMSB9LCB7IHVuaXF1ZTogdHJ1ZSB9KTtcclxuXHJcbmNvbnN0IFVzZXIgPSBtb25nb29zZS5tb2RlbHMuVXNlciB8fCBtb25nb29zZS5tb2RlbCgnVXNlcicsIFVzZXJTY2hlbWEpO1xyXG5cclxuLy8gRW1haWwgZXZlbnQgbW9kZWxcclxuY29uc3QgRW1haWxFdmVudFNjaGVtYSA9IG5ldyBtb25nb29zZS5TY2hlbWEoe1xyXG4gIHVzZXI6IHsgdHlwZTogbW9uZ29vc2UuU2NoZW1hLlR5cGVzLk9iamVjdElkLCByZWY6ICdVc2VyJywgcmVxdWlyZWQ6IHRydWUgfSxcclxuICB0eXBlOiB7IHR5cGU6IFN0cmluZywgcmVxdWlyZWQ6IHRydWUgfSwgLy8gJ29wZW4nLCAnY2xpY2snXHJcbiAgZW1haWxJZDogeyB0eXBlOiBTdHJpbmcsIHJlcXVpcmVkOiB0cnVlIH0sXHJcbiAgcmVjaXBpZW50OiB7IHR5cGU6IFN0cmluZywgcmVxdWlyZWQ6IHRydWUgfSxcclxuICBjb21wYW55OiB7IHR5cGU6IFN0cmluZywgcmVxdWlyZWQ6IHRydWUgfSxcclxuICBsaW5rQ2xpY2tlZDogeyB0eXBlOiBTdHJpbmcgfSwgLy8gT25seSBmb3IgJ2NsaWNrJyBldmVudHNcclxuICB1c2VyQWdlbnQ6IHsgdHlwZTogU3RyaW5nIH0sXHJcbiAgaXBBZGRyZXNzOiB7IHR5cGU6IFN0cmluZyB9LFxyXG4gIHRpbWVzdGFtcDogeyB0eXBlOiBEYXRlLCBkZWZhdWx0OiBEYXRlLm5vdyB9XHJcbn0pO1xyXG5cclxuY29uc3QgRW1haWxFdmVudCA9IG1vbmdvb3NlLm1vZGVscy5FbWFpbEV2ZW50IHx8IG1vbmdvb3NlLm1vZGVsKCdFbWFpbEV2ZW50JywgRW1haWxFdmVudFNjaGVtYSk7XHJcblxyXG5leHBvcnQgeyBVc2VyLCBFbWFpbEV2ZW50IH07Il0sIm5hbWVzIjpbIm1vbmdvb3NlIiwiVXNlclNjaGVtYSIsIlNjaGVtYSIsIl9pZCIsInR5cGUiLCJUeXBlcyIsIk9iamVjdElkIiwiYXV0byIsIm5hbWUiLCJTdHJpbmciLCJyZXF1aXJlZCIsImVtYWlsIiwidW5pcXVlIiwicGFzc3dvcmQiLCJjb21wYW55IiwiY3JlYXRlZEF0IiwiRGF0ZSIsImRlZmF1bHQiLCJub3ciLCJpbmRleCIsIlVzZXIiLCJtb2RlbHMiLCJtb2RlbCIsIkVtYWlsRXZlbnRTY2hlbWEiLCJ1c2VyIiwicmVmIiwiZW1haWxJZCIsInJlY2lwaWVudCIsImxpbmtDbGlja2VkIiwidXNlckFnZW50IiwiaXBBZGRyZXNzIiwidGltZXN0YW1wIiwiRW1haWxFdmVudCJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(api)/./models/EmailEvent.js\n");
 
 /***/ }),
 
-/***/ 538:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "(api)/./mongodb.js":
+/*!********************!*\
+  !*** ./mongodb.js ***!
+  \********************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ handler)
-/* harmony export */ });
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(663);
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _mongodb__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(722);
-/* harmony import */ var _models_EmailEvent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(645);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"connectToDatabase\": () => (/* binding */ connectToDatabase)\n/* harmony export */ });\n/* harmony import */ var dotenv_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dotenv/config */ \"dotenv/config\");\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mongoose */ \"mongoose\");\n\n\nconst MONGODB_URI = process.env.MONGODB_URI;\nif (!MONGODB_URI) {\n    throw new Error(\"Please define the MONGODB_URI environment variable\");\n}\n/**\r\n * Global is used here to maintain a cached connection across hot reloads\r\n * in development. This prevents connections growing exponentially\r\n * during API Route usage.\r\n */ let cached = global.mongoose;\nif (!cached) {\n    cached = global.mongoose = {\n        conn: null,\n        promise: null\n    };\n}\nasync function connectToDatabase() {\n    if (cached.conn) {\n        return cached.conn;\n    }\n    if (!cached.promise) {\n        const opts = {\n            useNewUrlParser: true,\n            useUnifiedTopology: true\n        };\n        cached.promise = mongoose__WEBPACK_IMPORTED_MODULE_1__.connect(MONGODB_URI, opts).then((mongoose)=>{\n            return mongoose;\n        });\n    }\n    cached.conn = await cached.promise;\n    return cached.conn;\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9tb25nb2RiLmpzLmpzIiwibWFwcGluZ3MiOiI7Ozs7OztBQUF1QjtBQUNTO0FBRWhDLE1BQU1DLFdBQVcsR0FBR0MsT0FBTyxDQUFDQyxHQUFHLENBQUNGLFdBQVc7QUFFM0MsSUFBSSxDQUFDQSxXQUFXLEVBQUU7SUFDaEIsTUFBTSxJQUFJRyxLQUFLLENBQUMsb0RBQW9ELENBQUMsQ0FBQztBQUN4RSxDQUFDO0FBRUQ7QUFPQSxJQUFJLENBQUNDLE1BQU0sRUFBRTtJQUNYQSxNQUFNLEdBQUdDLE1BQU0sQ0FBQ04sUUFBUSxHQUFHO1FBQUVPLElBQUksRUFBRSxJQUFJO1FBQUVDLE9BQU8sRUFBRSxJQUFJO0tBQUUsQ0FBQztBQUMzRCxDQUFDO0FBRUQsT0FBTztJQUNMLElBQUlILE1BQU0sQ0FBQ0UsSUFBSSxFQUFFOzs7QUFJakIsQ0FBSSxDQUFDRixNQUFNLENBQUNHLE9BQU8sRUFBRTtRQUNuQixNQUFNRSxJQUFJLEdBQUc7WUFDWEMsZUFBZTs7U0FFaEI7UUFFRE4sTUFBTSxDQUFDRyxPQUFPO1lBRVYsT0FBT1IsUUFBUSxDQUFDO1FBQ2xCLENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztJQUNESyxNQUFNLENBQUNFLElBQUksR0FBRyxNQUFNRixDQUFBQSw2Q0FBZTtJQUNuQyxPQUFPQSxNQUFNLENBQUNFLElBQUksQ0FBQztBQUNyQixDQUFDIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vZW1haWwtdHJhY2tpbmctc3lzdGVtLy4vbW9uZ29kYi5qcz80OGQ0Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCAnZG90ZW52L2NvbmZpZyc7XHJcbmltcG9ydCBtb25nb29zZSBmcm9tICdtb25nb29zZSc7XHJcblxyXG5jb25zdCBNT05HT0RCX1VSSSA9IHByb2Nlc3MuZW52Lk1PTkdPREJfVVJJO1xyXG5cclxuaWYgKCFNT05HT0RCX1VSSSkge1xyXG4gIHRocm93IG5ldyBFcnJvcignUGxlYXNlIGRlZmluZSB0aGUgTU9OR09EQl9VUkkgZW52aXJvbm1lbnQgdmFyaWFibGUnKTtcclxufVxyXG5cclxuLyoqXHJcbiAqIEdsb2JhbCBpcyB1c2VkIGhlcmUgdG8gbWFpbnRhaW4gYSBjYWNoZWQgY29ubmVjdGlvbiBhY3Jvc3MgaG90IHJlbG9hZHNcclxuICogaW4gZGV2ZWxvcG1lbnQuIFRoaXMgcHJldmVudHMgY29ubmVjdGlvbnMgZ3Jvd2luZyBleHBvbmVudGlhbGx5XHJcbiAqIGR1cmluZyBBUEkgUm91dGUgdXNhZ2UuXHJcbiAqL1xyXG5sZXQgY2FjaGVkID0gZ2xvYmFsLm1vbmdvb3NlO1xyXG5cclxuaWYgKCFjYWNoZWQpIHtcclxuICBjYWNoZWQgPSBnbG9iYWwubW9uZ29vc2UgPSB7IGNvbm46IG51bGwsIHByb21pc2U6IG51bGwgfTtcclxufVxyXG5cclxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGNvbm5lY3RUb0RhdGFiYXNlKCkge1xyXG4gIGlmIChjYWNoZWQuY29ubikge1xyXG4gICAgcmV0dXJuIGNhY2hlZC5jb25uO1xyXG4gIH1cclxuXHJcbiAgaWYgKCFjYWNoZWQucHJvbWlzZSkge1xyXG4gICAgY29uc3Qgb3B0cyA9IHtcclxuICAgICAgdXNlTmV3VXJsUGFyc2VyOiB0cnVlLFxyXG4gICAgICB1c2VVbmlmaWVkVG9wb2xvZ3k6IHRydWUsXHJcbiAgICB9O1xyXG5cclxuICAgIGNhY2hlZC5wcm9taXNlID0gbW9uZ29vc2UuY29ubmVjdChNT05HT0RCX1VSSSwgb3B0cylcclxuICAgICAgLnRoZW4obW9uZ29vc2UgPT4ge1xyXG4gICAgICAgIHJldHVybiBtb25nb29zZTtcclxuICAgICAgfSk7XHJcbiAgfVxyXG4gIGNhY2hlZC5jb25uID0gYXdhaXQgY2FjaGVkLnByb21pc2U7XHJcbiAgcmV0dXJuIGNhY2hlZC5jb25uO1xyXG59XHJcbiJdLCJuYW1lcyI6WyJtb25nb29zZSIsIk1PTkdPREJfVVJJIiwicHJvY2VzcyIsImVudiIsIkVycm9yIiwiY2FjaGVkIiwiZ2xvYmFsIiwiY29ubiIsInByb21pc2UiLCJjb25uZWN0VG9EYXRhYmFzZSIsIm9wdHMiLCJ1c2VOZXdVcmxQYXJzZXIiLCJ1c2VVbmlmaWVkVG9wb2xvZ3kiLCJjb25uZWN0IiwidGhlbiJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(api)/./mongodb.js\n");
 
+/***/ }),
 
+/***/ "(api)/./pages/api/link/[emailID].js":
+/*!*************************************!*\
+  !*** ./pages/api/link/[emailID].js ***!
+  \*************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-async function handler(req, res) {
-    // Only allow GET requests
-    if (req.method !== "GET") {
-        return res.status(405).end("Method Not Allowed");
-    }
-    const { emailId  } = req.query;
-    const { to , r: recipient , c: company  } = req.query;
-    if (!to) {
-        return res.status(400).send("Missing destination URL");
-    }
-    try {
-        // Connect to MongoDB
-        await (0,_mongodb__WEBPACK_IMPORTED_MODULE_1__/* .connectToDatabase */ .v)();
-        // Decode the destination URL
-        const decodedUrl = decodeURIComponent(to);
-        // Create a new link click event
-        const clickEvent = new _models_EmailEvent__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z({
-            type: "click",
-            emailId,
-            recipient: recipient || "unknown",
-            company: company || "unknown",
-            linkClicked: decodedUrl,
-            userAgent: req.headers["user-agent"],
-            ipAddress: req.headers["x-forwarded-for"] || req.socket.remoteAddress
-        });
-        // Save the event
-        await clickEvent.save();
-        console.log(`Link click tracked: ${decodedUrl} by ${recipient} at ${company}`);
-        // Redirect to the destination URL
-        return res.redirect(decodedUrl);
-    } catch (error) {
-        console.error("Error tracking click:", error);
-        // Redirect anyway, even if tracking fails
-        return res.redirect(decodeURIComponent(to));
-    }
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ handler)\n/* harmony export */ });\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ \"mongoose\");\n/* harmony import */ var _mongodb__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mongodb */ \"(api)/./mongodb.js\");\n/* harmony import */ var _models_EmailEvent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../models/EmailEvent */ \"(api)/./models/EmailEvent.js\");\n\n\n\nasync function handler(req, res) {\n    // Only allow GET requests\n    if (req.method !== \"GET\") {\n        return res.status(405).end(\"Method Not Allowed\");\n    }\n    console.log(\"Link tracking request received:\", {\n        query: req.query,\n        headers: req.headers,\n        method: req.method\n    });\n    const emailId = req.query.emailID;\n    console.log(\"Raw emailId from query:\", emailId);\n    console.log(\"Full query object:\", req.query);\n    const url = req.query.url;\n    const recipient = req.query.p || \"unknown\";\n    const company = req.query.c || \"unknown\";\n    if (!url) {\n        return res.status(400).json({\n            error: \"URL parameter is required\"\n        });\n    }\n    console.log(\"Looking up user with email:\", emailId, url, recipient, company);\n    try {\n        console.log(\"Attempting to connect to MongoDB...\");\n        // Connect to MongoDB\n        await (0,_mongodb__WEBPACK_IMPORTED_MODULE_1__.connectToDatabase)();\n        console.log(\"MongoDB connection successful\");\n        // Find the user by the emailId from the URL\n        const user = await _models_EmailEvent__WEBPACK_IMPORTED_MODULE_2__.User.findOne({\n            email: emailId\n        });\n        if (!user) {\n            console.error(\"User not found for email:\", emailId);\n            return res.status(404).json({\n                error: \"User not found\"\n            });\n        }\n        console.log(\"Found user:\", user);\n        // Create a new click event\n        const clickEvent = new _models_EmailEvent__WEBPACK_IMPORTED_MODULE_2__.EmailEvent({\n            user: user._id,\n            type: \"click\",\n            emailId,\n            recipient,\n            company,\n            url,\n            userAgent: req.headers[\"user-agent\"],\n            ipAddress: req.headers[\"x-forwarded-for\"] || req.socket.remoteAddress\n        });\n        console.log(\"Saving event:\", clickEvent);\n        // Save the event\n        await clickEvent.save();\n        console.log(`Link click tracked: ${url} by ${recipient} at ${company}`);\n        // Redirect to the actual URL\n        res.redirect(url);\n    } catch (error) {\n        console.error(\"Error tracking click:\", {\n            error: error.message,\n            stack: error.stack,\n            emailId,\n            url,\n            recipient,\n            company\n        });\n        // Even if tracking fails, redirect to the URL\n        res.redirect(url);\n    }\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,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Q0FBQyxlQUFlLEVBQUVlLFVBQVUsQ0FBQyxDQUFDO1FBQ3pDLGlCQUFpQjtRQUNqQixNQUFNQSxVQUFVLENBQUNPLElBQUksRUFBRSxDQUFDO1FBQ3hCdkIsT0FBTyxDQUFDQyxHQUFHLENBQUMsQ0FBQyxvQkFBb0IsRUFBRUssR0FBRyxDQUFDLElBQUksRUFBRUMsU0FBUyxDQUFDLElBQUksRUFBRUUsT0FBTyxDQUFDLENBQUMsQ0FBQyxDQUFDO1FBRXhFLDZCQUE2QjtRQUM3QmIsR0FBRyxDQUFDNEIsUUFBUSxDQUFDbEIsR0FBRyxDQUFDLENBQUM7SUFDcEIsRUFBRSxPQUFPTSxLQUFLLEVBQUU7UUFDZFosT0FBTyxDQUFDWSxLQUFLLENBQUMsdUJBQXVCLEVBQUU7WUFDckNBLEtBQUssRUFBRUEsS0FBSyxDQUFDYSxPQUFPO1lBQ3BCQyxLQUFLLEVBQUVkLEtBQUssQ0FBQ2MsS0FBSztZQUNsQnRCLE9BQU87WUFDUEUsR0FBRztZQUNIQyxTQUFTO1lBQ1RFLE9BQU87U0FDUixDQUFDLENBQUM7UUFDSCw4Q0FBOEM7UUFDOUNiLEdBQUcsQ0FBQzRCLFFBQVEsQ0FBQ2xCLEdBQUcsQ0FBQyxDQUFDO0lBQ3BCLENBQUM7QUFDSCxDQUFDIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vZW1haWwtdHJhY2tpbmctc3lzdGVtLy4vcGFnZXMvYXBpL2xpbmsvW2VtYWlsSURdLmpzPzM3MjYiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IG1vbmdvb3NlIGZyb20gJ21vbmdvb3NlJztcclxuaW1wb3J0IHsgY29ubmVjdFRvRGF0YWJhc2UgfSBmcm9tICcuLi8uLi8uLi9tb25nb2RiJztcclxuaW1wb3J0IHsgVXNlciwgRW1haWxFdmVudCB9IGZyb20gJy4uLy4uLy4uL21vZGVscy9FbWFpbEV2ZW50JztcclxuXHJcbmV4cG9ydCBkZWZhdWx0IGFzeW5jIGZ1bmN0aW9uIGhhbmRsZXIocmVxLCByZXMpIHtcclxuICAvLyBPbmx5IGFsbG93IEdFVCByZXF1ZXN0c1xyXG4gIGlmIChyZXEubWV0aG9kICE9PSAnR0VUJykge1xyXG4gICAgcmV0dXJuIHJlcy5zdGF0dXMoNDA1KS5lbmQoJ01ldGhvZCBOb3QgQWxsb3dlZCcpO1xyXG4gIH1cclxuICBcclxuICBjb25zb2xlLmxvZygnTGluayB0cmFja2luZyByZXF1ZXN0IHJlY2VpdmVkOicsIHtcclxuICAgIHF1ZXJ5OiByZXEucXVlcnksXHJcbiAgICBoZWFkZXJzOiByZXEuaGVhZGVycyxcclxuICAgIG1ldGhvZDogcmVxLm1ldGhvZFxyXG4gIH0pO1xyXG5cclxuICBjb25zdCBlbWFpbElkID0gcmVxLnF1ZXJ5LmVtYWlsSUQ7XHJcbiAgY29uc29sZS5sb2coJ1JhdyBlbWFpbElkIGZyb20gcXVlcnk6JywgZW1haWxJZCk7XHJcbiAgY29uc29sZS5sb2coJ0Z1bGwgcXVlcnkgb2JqZWN0OicsIHJlcS5xdWVyeSk7XHJcbiAgY29uc3QgdXJsID0gcmVxLnF1ZXJ5LnVybDtcclxuICBjb25zdCByZWNpcGllbnQgPSByZXEucXVlcnkucCB8fCAndW5rbm93bic7XHJcbiAgY29uc3QgY29tcGFueSA9IHJlcS5xdWVyeS5jIHx8ICd1bmtub3duJztcclxuICBcclxuICBpZiAoIXVybCkge1xyXG4gICAgcmV0dXJuIHJlcy5zdGF0dXMoNDAwKS5qc29uKHsgZXJyb3I6ICdVUkwgcGFyYW1ldGVyIGlzIHJlcXVpcmVkJyB9KTtcclxuICB9XHJcbiAgXHJcbiAgY29uc29sZS5sb2coXCJMb29raW5nIHVwIHVzZXIgd2l0aCBlbWFpbDpcIiwgZW1haWxJZCwgdXJsLCByZWNpcGllbnQsIGNvbXBhbnkpO1xyXG4gIHRyeSB7XHJcbiAgICBjb25zb2xlLmxvZygnQXR0ZW1wdGluZyB0byBjb25uZWN0IHRvIE1vbmdvREIuLi4nKTtcclxuICAgIC8vIENvbm5lY3QgdG8gTW9uZ29EQlxyXG4gICAgYXdhaXQgY29ubmVjdFRvRGF0YWJhc2UoKTtcclxuICAgIGNvbnNvbGUubG9nKCdNb25nb0RCIGNvbm5lY3Rpb24gc3VjY2Vzc2Z1bCcpO1xyXG5cclxuICAgIC8vIEZpbmQgdGhlIHVzZXIgYnkgdGhlIGVtYWlsSWQgZnJvbSB0aGUgVVJMXHJcbiAgICBjb25zdCB1c2VyID0gYXdhaXQgVXNlci5maW5kT25lKHsgZW1haWw6IGVtYWlsSWQgfSk7XHJcbiAgICBpZiAoIXVzZXIpIHtcclxuICAgICAgY29uc29sZS5lcnJvcignVXNlciBub3QgZm91bmQgZm9yIGVtYWlsOicsIGVtYWlsSWQpO1xyXG4gICAgICByZXR1cm4gcmVzLnN0YXR1cyg0MDQpLmpzb24oeyBlcnJvcjogJ1VzZXIgbm90IGZvdW5kJyB9KTtcclxuICAgIH1cclxuICAgIGNvbnNvbGUubG9nKFwiRm91bmQgdXNlcjpcIiwgdXNlcik7XHJcblxyXG4gICAgLy8gQ3JlYXRlIGEgbmV3IGNsaWNrIGV2ZW50XHJcbiAgICBjb25zdCBjbGlja0V2ZW50ID0gbmV3IEVtYWlsRXZlbnQoe1xyXG4gICAgICB1c2VyOiB1c2VyLl9pZCxcclxuICAgICAgdHlwZTogJ2NsaWNrJyxcclxuICAgICAgZW1haWxJZCxcclxuICAgICAgcmVjaXBpZW50LFxyXG4gICAgICBjb21wYW55LFxyXG4gICAgICB1cmwsXHJcbiAgICAgIHVzZXJBZ2VudDogcmVxLmhlYWRlcnNbJ3VzZXItYWdlbnQnXSxcclxuICAgICAgaXBBZGRyZXNzOiByZXEuaGVhZGVyc1sneC1mb3J3YXJkZWQtZm9yJ10gfHwgcmVxLnNvY2tldC5yZW1vdGVBZGRyZXNzXHJcbiAgICB9KTtcclxuXHJcbiAgICBjb25zb2xlLmxvZygnU2F2aW5nIGV2ZW50OicsIGNsaWNrRXZlbnQpO1xyXG4gICAgLy8gU2F2ZSB0aGUgZXZlbnRcclxuICAgIGF3YWl0IGNsaWNrRXZlbnQuc2F2ZSgpO1xyXG4gICAgY29uc29sZS5sb2coYExpbmsgY2xpY2sgdHJhY2tlZDogJHt1cmx9IGJ5ICR7cmVjaXBpZW50fSBhdCAke2NvbXBhbnl9YCk7XHJcbiAgICBcclxuICAgIC8vIFJlZGlyZWN0IHRvIHRoZSBhY3R1YWwgVVJMXHJcbiAgICByZXMucmVkaXJlY3QodXJsKTtcclxuICB9IGNhdGNoIChlcnJvcikge1xyXG4gICAgY29uc29sZS5lcnJvcignRXJyb3IgdHJhY2tpbmcgY2xpY2s6Jywge1xyXG4gICAgICBlcnJvcjogZXJyb3IubWVzc2FnZSxcclxuICAgICAgc3RhY2s6IGVycm9yLnN0YWNrLFxyXG4gICAgICBlbWFpbElkLFxyXG4gICAgICB1cmwsXHJcbiAgICAgIHJlY2lwaWVudCxcclxuICAgICAgY29tcGFueVxyXG4gICAgfSk7XHJcbiAgICAvLyBFdmVuIGlmIHRyYWNraW5nIGZhaWxzLCByZWRpcmVjdCB0byB0aGUgVVJMXHJcbiAgICByZXMucmVkaXJlY3QodXJsKTtcclxuICB9XHJcbn0iXSwibmFtZXMiOlsibW9uZ29vc2UiLCJjb25uZWN0VG9EYXRhYmFzZSIsIlVzZXIiLCJFbWFpbEV2ZW50IiwiaGFuZGxlciIsInJlcSIsInJlcyIsIm1ldGhvZCIsInN0YXR1cyIsImVuZCIsImNvbnNvbGUiLCJsb2ciLCJxdWVyeSIsImhlYWRlcnMiLCJlbWFpbElkIiwiZW1haWxJRCIsInVybCIsInJlY2lwaWVudCIsInAiLCJjb21wYW55IiwiYyIsImpzb24iLCJlcnJvciIsInVzZXIiLCJmaW5kT25lIiwiZW1haWwiLCJjbGlja0V2ZW50IiwiX2lkIiwidHlwZSIsInVzZXJBZ2VudCIsImlwQWRkcmVzcyIsInNvY2tldCIsInJlbW90ZUFkZHJlc3MiLCJzYXZlIiwicmVkaXJlY3QiLCJtZXNzYWdlIiwic3RhY2siXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(api)/./pages/api/link/[emailID].js\n");
 
 /***/ })
 
@@ -126,7 +70,7 @@ async function handler(req, res) {
 var __webpack_require__ = require("../../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [722], () => (__webpack_exec__(538)));
+var __webpack_exports__ = (__webpack_exec__("(api)/./pages/api/link/[emailID].js"));
 module.exports = __webpack_exports__;
 
 })();

@@ -18,5 +18,6 @@
         "node": ">=14.0.0"
     },
     "author": "",
-    "license": "MIT"
+    "license": "MIT",
+    "type": "module"
 }
