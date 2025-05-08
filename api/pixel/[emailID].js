@@ -8,14 +8,22 @@ export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).end('Method Not Allowed');
   }
-  console.log(req.query);
+  
+  console.log('Pixel tracking request received:', {
+    query: req.query,
+    headers: req.headers,
+    method: req.method
+  });
+
   const { emailId } = req.query;
   const recipient = req.query.p || 'unknown';
   const company = req.query.c || 'unknown';
   
   try {
+    console.log('Attempting to connect to MongoDB...');
     // Connect to MongoDB
     await connectToDatabase();
+    console.log('MongoDB connection successful');
     
     // Create a new email open event
     const openEvent = new EmailEvent({
@@ -27,6 +35,7 @@ export default async function handler(req, res) {
       ipAddress: req.headers['x-forwarded-for'] || req.socket.remoteAddress
     });
 
+    console.log('Saving event:', openEvent);
     // Save the event
     await openEvent.save();
     console.log(`Email open tracked: ${emailId} by ${recipient} at ${company}`);
@@ -40,7 +49,13 @@ export default async function handler(req, res) {
     res.setHeader('Expires', '0');
     return res.status(200).send(pixel);
   } catch (error) {
-    console.error('Error tracking open:', error);
+    console.error('Error tracking open:', {
+      error: error.message,
+      stack: error.stack,
+      emailId,
+      recipient,
+      company
+    });
     return res.status(500).end();
   }
 }
