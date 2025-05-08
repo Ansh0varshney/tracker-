@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 // Check if the model already exists to prevent OverwriteModelError
-const EmailEvent = mongoose.models.EmailEvent || mongoose.model('EmailEvent', new mongoose.Schema({
+const EmailEvent = mongoose.models.EmailEvent || mongoose.model('Email          Event', new mongoose.Schema({
   type: { type: String, required: true }, // 'open', 'click'
   emailId: { type: String, required: true },
   recipient: { type: String, required: true },
