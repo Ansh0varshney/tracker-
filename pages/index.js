@@ -3,6 +3,8 @@ import Head from 'next/head';
 
 export default function Dashboard() {
   const [events, setEvents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [stats, setStats] = useState({
     openCount: 0,
     clickCount: 0,
@@ -47,6 +49,15 @@ export default function Dashboard() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    // Filter events based on search term
+    const filtered = events.filter(event => 
+      event.recipient.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.company.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredEvents(filtered);
+  }, [searchTerm, events]);
+
   const shortenUrl = (url) => {
     try {
       const urlObj = new URL(url);
@@ -66,10 +77,13 @@ export default function Dashboard() {
   };
 
   const renderAllEvents = () => {
-    if (events.length === 0) {
+    if (filteredEvents.length === 0 && searchTerm) {
+      return (<tr><td colSpan="5" className="text-center">No matching events found</td></tr>);
+    }
+    if (filteredEvents.length === 0) {
       return (<tr><td colSpan="5" className="text-center">No events recorded yet</td></tr>);
     }
-    return events.map((event, index) => {
+    return filteredEvents.map((event, index) => {
       const date = new Date(event.timestamp);
       const formattedDate = date.toLocaleString();
       let details = event.type === 'open' ? 'Email opened' : `Clicked: ${shortenUrl(event.linkClicked)}`;
@@ -86,7 +100,10 @@ export default function Dashboard() {
   };
 
   const renderOpens = () => {
-    const openEvents = events.filter(event => event.type === 'open');
+    const openEvents = filteredEvents.filter(event => event.type === 'open');
+    if (openEvents.length === 0 && searchTerm) {
+      return (<tr><td colSpan="5" className="text-center">No matching open events found</td></tr>);
+    }
     if (openEvents.length === 0) return (<tr><td colSpan="5" className="text-center">No opens recorded yet</td></tr>);
     return openEvents.map((event, index) => {
       const date = new Date(event.timestamp);
@@ -105,7 +122,10 @@ export default function Dashboard() {
   };
 
   const renderClicks = () => {
-    const clickEvents = events.filter(event => event.type === 'click');
+    const clickEvents = filteredEvents.filter(event => event.type === 'click');
+    if (clickEvents.length === 0 && searchTerm) {
+      return (<tr><td colSpan="4" className="text-center">No matching click events found</td></tr>);
+    }
     if (clickEvents.length === 0) return (<tr><td colSpan="4" className="text-center">No clicks recorded yet</td></tr>);
     return clickEvents.map((event, index) => {
       const date = new Date(event.timestamp);
@@ -134,7 +154,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div>
+    <div style={{ color: 'black' }}>
       <Head>
         <title>Email Tracking Dashboard</title>
         <meta name="description" content="Email tracking system dashboard" />
@@ -165,6 +185,24 @@ export default function Dashboard() {
       )}
 
       <div className="container mb-5">
+        <div className="search-container mb-4">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search by recipient or company..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              padding: '10px 15px',
+              fontSize: '16px',
+              borderRadius: '5px',
+              border: '1px solid #ddd',
+              width: '100%',
+              maxWidth: '500px'
+            }}
+          />
+        </div>
+
         <div className="row mb-4" id="statsCards">
           <div className="col-md-3"><div className="card stats-card"><i className="fas fa-envelope-open"></i><div className="number">{stats.openCount}</div><div className="label">Total Opens</div></div></div>
           <div className="col-md-3"><div className="card stats-card"><i className="fas fa-mouse-pointer"></i><div className="number">{stats.clickCount}</div><div className="label">Total Clicks</div></div></div>
