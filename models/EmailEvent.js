@@ -4,13 +4,13 @@ import mongoose from 'mongoose';
 const UserSchema = mongoose.Schema({
   _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true },
   password: { type: String, required: true },
   company: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 });
 
-// Ensure email is unique
+// Add unique index using schema.index()
 UserSchema.index({ email: 1 }, { unique: true });
 
 const User = mongoose.models.User || mongoose.model('User', UserSchema);

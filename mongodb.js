@@ -25,15 +25,26 @@ export async function connectToDatabase() {
 
   if (!cached.promise) {
     const opts = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts)
       .then(mongoose => {
+        console.log('Successfully connected to MongoDB.');
         return mongoose;
+      })
+      .catch(error => {
+        console.error('MongoDB connection error:', error);
+        throw error;
       });
   }
-  cached.conn = await cached.promise;
-  return cached.conn;
+  
+  try {
+    cached.conn = await cached.promise;
+    return cached.conn;
+  } catch (error) {
+    cached.promise = null;
+    throw error;
+  }
 }
