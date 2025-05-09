@@ -17,7 +17,6 @@ export default async function handler(req, res) {
   
   const emailId = req.query.emailID;
   const { p: recipient, c: company, url} = req.query;
-  console
   console.log('Parsed query parameters:', {
     emailId,
     recipient,
@@ -32,14 +31,19 @@ export default async function handler(req, res) {
     await connectToDatabase();
     console.log('MongoDB connection successful');
 
+      // have to get user id for the user whoes campaign this is
+    const user = await User.findOne({ email: emailId });
+    if(!user){
+      return res.status(404).json({ error: 'User not found' });
+    }
     // Create a new click event
     const clickEvent = new EmailEvent({
       user: user._id,
-      url: url,
       type: 'click',
       emailId,
       recipient,
       company,
+      linkClicked: url,
       userAgent: req.headers['user-agent'],
       ipAddress: req.headers['x-forwarded-for'] || req.socket.remoteAddress
     });

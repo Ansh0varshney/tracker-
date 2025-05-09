@@ -2,9 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/api/stats": "pages/api/stats.js",
   "/": "pages/index.js",
-  "/api/test-db": "pages/api/test-db.js",
+  "/api/stats": "pages/api/stats.js",
   "/api/events": "pages/api/events.js",
-  "/api/pixel/[emailID]": "pages/api/pixel/[emailID].js"
+  "/api/link/[emailID]": "pages/api/link/[emailID].js"
 }
