@@ -9,15 +9,14 @@
     },
     "dependencies": {
         "dotenv": "^16.5.0",
-        "mongoose": "^6.13.8",
-        "next": "^12.2.0",
+        "mongoose": "^8.1.1",
+        "next": "^14.1.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0"
     },
     "engines": {
-        "node": ">=14.0.0"
+        "node": ">=18.0.0"
     },
     "author": "",
-    "license": "MIT",
-    "type": "module"
+    "license": "MIT"
 }
