@@ -1,5 +1,5 @@
 import { connectToDatabase } from '../../mongodb';
-import { EmailEvent } from '../../models/EmailEvent';
+import { EmailEvent, Campaign} from '../../models/EmailEvent';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -7,62 +7,68 @@ export default async function handler(req, res) {
   }
 
   try {
-    await connectToDatabase();
-    
-    // Get counts using aggregation for better performance
-    const [stats] = await EmailEvent.aggregate([
-      {
-        $group: {
-          _id: null,
-          openCount: {
-            $sum: { $cond: [{ $eq: ['$type', 'open'] }, 1, 0] }
-          },
-          clickCount: {
-            $sum: { $cond: [{ $eq: ['$type', 'click'] }, 1, 0] }
-          },
-          uniqueOpeners: {
-            $addToSet: {
-              $cond: [{ $eq: ['$type', 'open'] }, '$recipient', null]
-            }
-          }
-        }
-      }
-    ]);
+    const { campaignId } = req.query;
+ 
+    if (!campaignId) {
+      return res.status(400).json({ error: 'Campaign ID is required' });
+    }
 
-    // Get company stats
-    const companyStats = await EmailEvent.aggregate([
-      {
-        $group: {
-          _id: '$company',
-          opens: {
-            $sum: { $cond: [{ $eq: ['$type', 'open'] }, 1, 0] }
-          },
-          clicks: {
-            $sum: { $cond: [{ $eq: ['$type', 'click'] }, 1, 0] }
-          }
-        }
-      },
-      {
-        $project: {
-          company: '$_id',
-          opens: 1,
-          clicks: 1,
-          engagement: { $add: ['$opens', '$clicks'] },
-          _id: 0
-        }
-      },
-      { $sort: { engagement: -1 } },
-      { $limit: 5 }
-    ]);
+    await connectToDatabase();
+
+    // Get all events for the campaign
+    const camid = await Campaign.findById(campaignId);
+    const events = await EmailEvent.find({ campaign: camid._id });
+
+    // Calculate statistics
+    const openCount = events.filter(event => event.type === 'open').length;
+    const clickCount = events.filter(event => event.type === 'click').length;
+    
+    // Get unique openers (based on recipient email)
+    const uniqueOpeners = new Set(
+      events
+        .filter(event => event.type === 'open')
+        .map(event => event.recipient)
+    );
+    const uniqueOpenersCount = uniqueOpeners.size;
+
+    // Get unique clickers (based on recipient email)
+    const uniqueClickers = new Set(
+      events
+        .filter(event => event.type === 'click')
+        .map(event => event.recipient)
+    );
+    const uniqueClickersCount = uniqueClickers.size;
+
+    // Get top companies (based on recipient email domain)
+    const companyCounts = {};
+    events.forEach(event => {
+      if (event.type === 'open') {
+        const domain = event.recipient.split('@')[1];
+        companyCounts[domain] = (companyCounts[domain] || 0) + 1;
+      }
+    });
+
+    const topCompanies = Object.entries(companyCounts)
+      .map(([company, count]) => ({ company, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+
+    // dummy purpose 
+    const sentCount = 100;
 
     return res.status(200).json({
-      openCount: stats?.openCount || 0,
-      clickCount: stats?.clickCount || 0,
-      uniqueOpenersCount: stats?.uniqueOpeners?.filter(Boolean).length || 0,
-      topCompanies: companyStats
+      sentCount,
+      openCount,
+      clickCount,
+      uniqueOpenersCount,
+      uniqueClickersCount,
+      topCompanies,
+
     });
+
+
   } catch (error) {
     console.error('Error fetching stats:', error);
-    return res.status(500).json({ error: 'Failed to fetch stats' });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }

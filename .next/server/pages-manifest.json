@@ -2,7 +2,13 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/campaigns": "pages/campaigns.js",
   "/": "pages/index.js",
   "/api/stats": "pages/api/stats.js",
-  "/api/events": "pages/api/events.js"
+  "/api/campaigns": "pages/api/campaigns.js",
+  "/dashboard": "pages/dashboard.js",
+  "/api/events": "pages/api/events.js",
+  "/api/recipient-engagement": "pages/api/recipient-engagement.js",
+  "/login": "pages/login.js",
+  "/api/auth/login": "pages/api/auth/login.js"
 }

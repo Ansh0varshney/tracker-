@@ -7,30 +7,25 @@ export default async function handler(req, res) {
   }
 
   try {
+    const { campaignId } = req.query;
+
+    if (!campaignId) {
+      return res.status(400).json({ error: 'Campaign ID is required' });
+    }
+
     await connectToDatabase();
-    
-    // Get events with populated user data and sort by timestamp
-    const events = await EmailEvent.find()
+
+    // Get all events for the campaign, sorted by timestamp
+    // Fix: Use correct field for campaign filtering
+    const events = await EmailEvent.find({ campaign: campaignId })
       .sort({ timestamp: -1 })
-      .limit(100); // Limit to last 100 events for performance
+      .limit(1000); // Limit to last 1000 events for performance
 
-    // Format the events data
-    const formattedEvents = events.map(event => ({
-      _id: event._id,
-      type: event.type,
-      emailId: event.emailId,
-      recipient: event.recipient,
-      company: event.company,
-      linkClicked: event.linkClicked,
-      userAgent: event.userAgent,
-      timestamp: event.timestamp,
-      device: getDeviceInfo(event.userAgent)
-    }));
+    return res.status(200).json(events);
 
-    return res.status(200).json(formattedEvents);
   } catch (error) {
     console.error('Error fetching events:', error);
-    return res.status(500).json({ error: 'Failed to fetch events' });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
 

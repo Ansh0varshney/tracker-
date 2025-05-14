@@ -1,7 +1,7 @@
 // File: api/pixel/[emailID].js - Tracking pixel endpoint
 import mongoose from 'mongoose';
 import { connectToDatabase } from '../../../mongodb';
-import { User, EmailEvent } from '../../../models/EmailEvent';
+import { User, EmailEvent, Campaign } from '../../../models/EmailEvent';
 
 export default async function handler(req, res) {
   // Only allow GET requests
@@ -15,28 +15,32 @@ export default async function handler(req, res) {
     method: req.method
   });
 
-  const emailId = req.query.emailID;
-  const { p: recipient, c: company } = req.query;
 
+
+  const userstring = req.query.emailID;
+  const { p: recipient, c: company, camp: campaignstring } = req.query;
+
+  // request is send with campaign id and user id and not email id
   try {
     console.log('Attempting to connect to MongoDB...');
     // Connect to MongoDB
     await connectToDatabase();
     console.log('MongoDB connection successful');
     
-    // Find the user by the emailId from the URL
-    const user = await User.findOne({ email: emailId });
-    if (!user) {
-      console.error('User not found for email:', emailId);
-      return res.status(404).json({ error: 'User not found' });
+    let userid;
+    try {
+      userid = await User.findById(userstring).select('_id');
+    } catch (error) {
+      console.log('error caught while finding user', error);
     }
-    console.log("Found user:", user);
+    
+    const campaignid = await Campaign.findById(campaignstring).select('_id');
 
     // Create a new email open event
     const openEvent = new EmailEvent({
-      user: user._id,
+      user: userid,
       type: 'open',
-      emailId,
+      campaign: campaignid,
       recipient,
       company,
       userAgent: req.headers['user-agent'],
@@ -46,7 +50,7 @@ export default async function handler(req, res) {
     console.log('Saving event:', openEvent);
     // Save the event
     await openEvent.save();
-    console.log(`Email open tracked: ${emailId} by ${recipient} at ${company}`);
+    console.log(`Email open tracked for campaign: ${campaignstring} by ${recipient} at ${company}`);
     
     // Return a 1x1 transparent GIF
     const pixel = Buffer.from('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64');
@@ -55,15 +59,15 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    return res.status(200).send(pixel);
+    res.status(200).send(pixel);
   } catch (error) {
     console.error('Error tracking open:', {
       error: error.message,
       stack: error.stack,
-      emailId,
+      campaign: campaignstring,
       recipient,
       company
     });
-    return res.status(500).end();
+    res.status(500).end();
   }
 }

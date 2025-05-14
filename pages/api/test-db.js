@@ -1,4 +1,5 @@
 import { connectToDatabase } from '../../mongodb';
+import {EmailEvent} from '../../models/EmailEvent';
 
 export default async function handler(req, res) {
   try {
@@ -19,4 +20,5 @@ export default async function handler(req, res) {
       details: 'Check server console for more information'
     });
   }
+
 } 

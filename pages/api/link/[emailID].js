@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { connectToDatabase } from '../../../mongodb';
-import { User, EmailEvent } from '../../../models/EmailEvent';
+import { User, EmailEvent, Campaign } from '../../../models/EmailEvent';
+
 
 export default async function handler(req, res) {
   // Only allow GET requests
@@ -12,35 +13,35 @@ export default async function handler(req, res) {
     query: req.query,
     headers: req.headers,
     method: req.method
+    
   });
 
-  
-  const emailId = req.query.emailID;
-  const { p: recipient, c: company, url} = req.query;
-  console.log('Parsed query parameters:', {
-    emailId,
-    recipient,
-    company,
-    url
-  });
+  const userstring = req.query.emailID;
+  const { p: recipient, c: company, url, camp: campaignstring } = req.query;
 
-
+  // request is send with campaign id and user id and not email id
   try {
     console.log('Attempting to connect to MongoDB...');
     // Connect to MongoDB
     await connectToDatabase();
     console.log('MongoDB connection successful');
-
-      // have to get user id for the user whoes campaign this is
-    const user = await User.findOne({ email: emailId });
-    if(!user){
-      return res.status(404).json({ error: 'User not found' });
+    
+    let userid;
+    try {
+      userid = await User.findById(userstring).select('_id');
+    } catch (error) {
+      console.log('error caught while finding user', error);
     }
+    
+    const campaignid = await Campaign.findById(campaignstring).select('_id');
+    
+    
     // Create a new click event
+
     const clickEvent = new EmailEvent({
-      user: user._id,
+      user: userid,
       type: 'click',
-      emailId,
+      campaign: campaignid,
       recipient,
       company,
       linkClicked: url,
@@ -59,7 +60,6 @@ export default async function handler(req, res) {
     console.error('Error tracking click:', {
       error: error.message,
       stack: error.stack,
-      emailId,
       url,
       recipient,
       company

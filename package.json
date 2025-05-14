@@ -2,6 +2,7 @@
     "name": "email-tracking-system",
     "version": "1.0.0",
     "description": "Serverless email tracking system for Vercel",
+    "type": "module",
     "scripts": {
         "dev": "next dev",
         "build": "next build",
@@ -10,9 +11,9 @@
     "dependencies": {
         "dotenv": "^16.5.0",
         "mongoose": "^8.1.1",
-        "next": "^14.1.0",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "next": "^15.3.2",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0"
     },
     "engines": {
         "node": ">=18.0.0"
